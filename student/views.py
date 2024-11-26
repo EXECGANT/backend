@@ -6,7 +6,7 @@ from django.core.files.storage import FileSystemStorage
 from django.http import QueryDict
 from library.savefile import saveFile
 from . import models, serializer
-url = '89.116.122.234:8000/media'
+url = 'http://89.116.122.234:8000/media'
 
 class StudentView(APIView):
     # ? Get Method
@@ -30,17 +30,17 @@ class StudentView(APIView):
             'student_image' : 'path',
         }
         if 'guardian_1_image' not in request.FILES:
-            student_details['guardian_1_image'] = "89.116.122.234:8000/placeholder/avatar-01.jpg"
+            student_details['guardian_1_image'] = "http://89.116.122.234:8000/placeholder/avatar-01.jpg"
         else:
             student_details['guardian_1_image']="path"
             
         if 'guardian_2_name' in request.POST:
             if 'guardian_2_image' not in request.FILES:
-                student_details['guardian_2_image'] = "89.116.122.234:8000/placeholder/avatar-01.jpg"
+                student_details['guardian_2_image'] = "http://89.116.122.234:8000/placeholder/avatar-01.jpg"
             else:
                 student_details['guardian_2_image']="path"
         else:
-            student_details['guardian_2_image']="89.116.122.234:8000/placeholder/avatar-01.jpg"       
+            student_details['guardian_2_image']="http://89.116.122.234:8000/placeholder/avatar-01.jpg"       
                     
         serialize_detail = serializer.StudentSerializer(data=student_details)
         if serialize_detail.is_valid():
