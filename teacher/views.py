@@ -12,7 +12,7 @@ from classes.models import  ClassesModel
 from classes.serializer import ClassesSerializer
 from subject.models import SubjectModel
 from subject.serializer import SubjectSerializer
-url = 'http://89.116.122.234:8000/media'
+url = 'http://89.116.122.234/media'
 
 class TeacherView(APIView):
     # ? Get Method

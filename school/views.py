@@ -13,7 +13,7 @@ from classes.models import ClassesModel
 from classes.serializer import ClassesSerializer
 from teacher.models import TeacherModel
 from teacher.serializer import TeacherSerializer
-url = 'http://89.116.122.234:8000/media'
+url = 'http://89.116.122.234/media'
 
 # ? For School Operations
 class SchoolLoginView(APIView):
