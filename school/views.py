@@ -139,7 +139,7 @@ class RoleView(APIView):
         school_id = request.headers['School-Id']
         data={
             'school_id':school_id,
-            **request.data
+            **request.data.dict()
         }
         response = CRUDOperations.addNewData(serializer=serializer.RoleSerializer, data=data)
         if response['status']:
