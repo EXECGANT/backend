@@ -20,7 +20,7 @@ class CategoryView(APIView):
         check_serializer=serializer.CategorySerializer(data=category_details)
         if check_serializer.is_valid():
             category_details['category_image']=saveFile(path="category",file=request.FILES['category_image'])
-            response = CRUDOperations.addNewData(model=models.CategoryModel, serializer=serializer.CategorySerializer, data=category_details)
+            response = CRUDOperations.addNewData(serializer=serializer.CategorySerializer, data=category_details)
             if response['status']:
                 return Response(response['data'],status=status.HTTP_200_OK)
             else:
@@ -43,7 +43,7 @@ class CategoryView(APIView):
             check_serializer=serializer.CategorySerializer(data=category_details)
             if check_serializer.is_valid():
                 category_details['category_image']=saveFile(path="category",file=request.FILES['category_image'])
-                response = CRUDOperations.addNewData(model=models.CategoryModel, serializer=serializer.CategorySerializer, data=category_details)
+                response = CRUDOperations.updateExistingData(model=models.CategoryModel, serializer=serializer.CategorySerializer, data=category_details, id=id)
                 if response['status']:
                     return Response(response['data'],status=status.HTTP_200_OK)
                 else:
