@@ -30,7 +30,6 @@ class ExamView(APIView):
     
 #     # ? Post Method
 #     def post(self, request):
-        
 #         response = CRUDOperations.addNewData(serializer=serializer.ExamSerializer, data=request.data)
 #         if response['status']:
 #             return Response(data=response['data'], status=status.HTTP_200_OK)
@@ -72,15 +71,18 @@ class ExamTimetableView(APIView):
             for timetable in exam_timetable:
                 subjects = CRUDOperations.getSpecificData(model=SubjectModel,serializer=SubjectSerializer,id=timetable['subject_id'])
                 subject_entry = {
+                    'subject_id' : timetable['subject_id'],
                     'subject_name': subjects['data']['subject_name'],
                     'exam_date': timetable['exam_date'],
                     'start_time': timetable['start_time'],
                     'end_time': timetable['end_time'],
-                    'portions': timetable['portions']
+                    'portions': timetable['portions'],
+                    
                 }
                 exam_data['subjects'].append(subject_entry)
                 
             data.append(exam_data)  
+            print(f"Data : f{data}")
             return Response(data=data, status=status.HTTP_200_OK)
         else:
             response = CRUDOperations.getSpecificData(model=models.ExamTimetableModel, serializer=serializer.ExamTimetableSerializer, id=id)
@@ -91,12 +93,13 @@ class ExamTimetableView(APIView):
     
     # ? Post Method
     def post(self, request):
-        print(request.data)
+        # print(request.data)
         subjects_list = request.data.get('subjects')
         exam_table = CRUDOperations.addNewData(serializer=serializer.ExamSerializer, data=request.data)
         if exam_table['status']: 
             e_id = exam_table['data']['id']  
             for entry in subjects_list:
+                print(entry)
                 timetable_data = {
                     'exam_date': entry.get('exam_date'),
                     'exam_id': e_id,
@@ -130,7 +133,8 @@ class ExamTimetableView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         
         
-class Class_based_ExamTimeTable(APIView):     
+class Class_based_ExamTimeTable(APIView):
+        
     # ? Exam TimeTable Baased on Classes
     def get(self, request):
         school_id = request.headers.get('School-Id')
@@ -142,6 +146,7 @@ class Class_based_ExamTimeTable(APIView):
             for exams in exam_type:
                 exam_id = exams['id']
                 exam_data = {
+                    'exam_id' : exams['id'],
                     'exam_name': exams['exam_name'],
                     'exam_start_date': exams['exam_start_date'],
                     'exam_end_date': exams['exam_end_date'],
@@ -151,8 +156,8 @@ class Class_based_ExamTimeTable(APIView):
                 for timetable in exam_timetable:
                     subjects = CRUDOperations.getSpecificData(model=SubjectModel,serializer=SubjectSerializer,id=timetable['subject_id'])
                     subject_entry = {
-                        'subject_id':subjects['data']['id'],
                         'subject_name': subjects['data']['subject_name'],
+                        'subject_id' : timetable['subject_id'],
                         'exam_date': timetable['exam_date'],
                         'start_time': timetable['start_time'],
                         'end_time': timetable['end_time'],
@@ -190,12 +195,11 @@ class Class_based_ExamTimeTable(APIView):
             return Response(data="success", status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        
+    
+    # ? Delet Class Based Exam Time Table
     def delete(self,request,id):
-
         delete_exam = CRUDOperations.deleteExistingData(model=models.ExamModel, id=id)
         if delete_exam:
             return Response(status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-    
