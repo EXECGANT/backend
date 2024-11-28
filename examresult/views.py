@@ -146,7 +146,7 @@ class ExamResultForStudentView(APIView):
         
         exam_data = CRUDOperations.getSpecificData(model=ExamModel, serializer=ExamSerializer, id=exam_id)
         if not exam_data.get('data'):  
-            return Response(data=exam_entry, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data=exam_entry, status=status.HTTP_200_OK)
         exam_entry['exam_name'] = exam_data['data']['exam_name']
 
         
